@@ -44,6 +44,13 @@ module IceCube
         dates.should == [DAY, DAY + 3 * ONE_HOUR, DAY + 6 * ONE_HOUR]
       end
 
+    it 'should update previous interval' do
+      schedule = double(start_time: t0 = Time.now)
+      rule = Rule.hourly(7)
+      rule.interval(5)
+      rule.next_time(t0 + 1, schedule, nil).should == t0 + 5.hours
+    end
+
       it 'should not produce results for @interval = 0' do
         start_date = DAY
         schedule = IceCube::Schedule.new(start_date)
